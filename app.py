@@ -181,12 +181,21 @@ with tab1:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="section-title">👤 Hasta Demografik Bilgileri</div>', unsafe_allow_html=True)
-        c_dem1, c_dem2 = st.columns(2)
+        st.markdown('<div class="section-title">👤 Hasta Kimlik ve Fiziksel Bilgileri</div>', unsafe_allow_html=True)
+        hasta_ad_soyad = st.text_input("Hasta Adı ve Soyadı", placeholder="Örn: Ayşe Yılmaz")
+        
+        c_dem1, c_dem2, c_dem3, c_dem4 = st.columns(4)
         with c_dem1:
-            yas = st.number_input("Hastanın Yaşı", min_value=1, max_value=105, value=25)
+            yas = st.number_input("Yaş", min_value=1, max_value=110, value=25)
         with c_dem2:
             cins = st.selectbox("Cinsiyet", [1, 0], format_func=lambda x: "Erkek" if x==1 else "Kadın")
+        with c_dem3:
+            boy = st.number_input("Boy (cm)", min_value=40, max_value=230, value=170)
+        with c_dem4:
+            kilo = st.number_input("Kilo (kg)", min_value=3, max_value=250, value=70)
+            
+        vki = round(kilo / ((boy / 100) ** 2), 1)
+        st.caption(f"📏 **Hesaplanan Vücut Kitle İndeksi (VKİ):** {vki} kg/m²")
             
         st.markdown('<div class="section-title">📋 1. Hastaya Sorulacak Sorular (10 Soru)</div>', unsafe_allow_html=True)
         
@@ -306,8 +315,12 @@ with tab1:
             "Protokol_No": protokol_no,
             "Kayit_Tarihi": tarih_saat,
             "Kaydeden_Hekim": doktor_adi,
+            "Hasta_Adi_Soyadi": hasta_ad_soyad,
             "Yas": yas,
             "Cinsiyet": cins,
+            "Boy_cm": boy,
+            "Kilo_kg": kilo,
+            "VKI": vki,
             
             # 1. Hastaya Sorulacak Sorular (Puanları)
             "H1_Anlamsiz_Korku": h1,
@@ -492,31 +505,6 @@ with tab3:
         ]
     })
     st.dataframe(comp_df, use_container_width=True, hide_index=True)
-    
-    st.markdown("---")
-    st.markdown("#### 🎯 Altın Klinik Bulgular")
-    k1, k2, k3 = st.columns(3)
-    with k1:
-        st.markdown("""
-        <div class="card-box card-epilepsy">
-            <div class="metric-title">👅 Dil Lateral Kenar Isırığı</div>
-            <p>Çene kaslarının istemsiz tonik spazmı dili dişler arasına sıkıştırır. <strong>Lateral (yan) kenar ısırığı, epilepsi için %95'in üzerinde tanısal özgüllüğe sahiptir.</strong></p>
-        </div>
-        """, unsafe_allow_html=True)
-    with k2:
-        st.markdown("""
-        <div class="card-box card-pnes">
-            <div class="metric-title">👁️ Göz Kapalılığı ve Direnç</div>
-            <p>PNEN hastaları gözlerini sıklıkla sıkıca kapatır. Klinisyen göz kapağını açmak istediğinde <strong>hastanın aktif direnç gösterdiği</strong> gözlenir.</p>
-        </div>
-        """, unsafe_allow_html=True)
-    with k3:
-        st.markdown("""
-        <div class="card-box card-syncope">
-            <div class="metric-title">⏱️ Süre ve Toparlanma Hızı</div>
-            <p>Senkopta beyin kan akımı hasta yere yığılınca hemen düzelir; 1-2 dakikada tam toparlanma olur. Epilepside ise <strong>en az 15-30 dk derin postiktal konfüzyon</strong> yaşanır.</p>
-        </div>
-        """, unsafe_allow_html=True)
 
 # ==============================================================================
 # SEKME 4: TEDAVİ VE SEVK KILAVUZU
