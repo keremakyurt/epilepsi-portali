@@ -7,8 +7,8 @@ import json
 from datetime import datetime
 
 st.set_page_config(
-    page_title="Epilepsi Veri Ambarı ve Hasta Kayıt Portalı",
-    page_icon="📋",
+    page_title="TÜBİTAK 2209 Projesi: Epilepsi Teşhisi İçin Nicel Veri Madenciliği ve Yapay Zeka Algoritmaları",
+    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -135,8 +135,8 @@ def append_patient_to_warehouse(patient_record):
             
     return len(df_updated), cloud_synced
 
-st.markdown('<div class="main-header">📋 Klinik Karar Ağacı — Hasta Kayıt ve Veri Ambarı Portalı</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">TÜBİTAK 2209-A: Danışıklı Öğrenme (Supervised Learning) Öncesi Standart Hasta Verisi Toplama Sistemi</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🧠 TÜBİTAK 2209 Projesi: Epilepsi Teşhisi İçin Nicel Veri Madenciliği ve Yapay Zeka Algoritmaları</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Klinik Karar Ağacı ve Danışıklı Öğrenme (Supervised Learning) Hasta Kayıt Portalı</div>', unsafe_allow_html=True)
 
 df_warehouse = load_warehouse()
 vaka_sayisi = len(df_warehouse)
@@ -195,99 +195,85 @@ with tab1:
             kilo = st.number_input("Kilo (kg)", min_value=3, max_value=250, value=70)
             
         vki = round(kilo / ((boy / 100) ** 2), 1)
-        st.caption(f"📏 **Hesaplanan Vücut Kitle İndeksi (VKİ):** {vki} kg/m²")
             
         st.markdown('<div class="section-title">📋 1. Hastaya Sorulacak Sorular (10 Soru)</div>', unsafe_allow_html=True)
         
         # H1
         h1 = st.radio("1. Atak başlangıcında anlamsız korku oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # H2
         h2 = st.radio("2. Atak başlangıcında anlamsız gülme atağı oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # H3
         h3 = st.radio("3. Atak başlangıcında anlamsız ağlama atağı oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # H4
         h4 = st.radio("4. Atak başlangıcında mideden yemek borusuna doğru yükselme hissi oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # H5 (Evet: 0, Hayır: 1)
         h5_val = st.radio("5. Atak başlangıcında çarpıntı oluyor mu?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # H6 (Evet: 0, Hayır: 1)
         h6_val = st.radio("6. Atak başlangıcında terleme artışı, gözlerde kararma oluyor mu?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # H7 (Evet: 0, Hayır: 1)
         h7_val = st.radio("7. Ataklar hep yalnızken, etrafta kimse yokken mi oluyor?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # H8 (Evet: 0, Hayır: 1)
         h8_val = st.radio("8. Ataklar sonrası ağlama oluyor mu?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # H9
         h9 = st.radio("9. Sabahları daha çok olmak üzere gün içinde ani irkilme şeklinde sıçramalar oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # H10
         h10 = st.radio("10. Ataklarda düşme sonucu kafaya dikiş atılması, kol-bacak alçıya alınma durumu oldu mu?",
-                       [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                       [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
 
     with col2:
         st.markdown('<div class="section-title">👁️ 2. Atak Anına Tanık Olanlara Sorulacak Sorular (12 Soru)</div>', unsafe_allow_html=True)
         
         # T1
         t1 = st.radio("11. Gözler atak sırasında açık mı?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T2
         t2 = st.radio("12. Gözler yukarı doğru sabit mi?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T3 (Evet: 0, Hayır: 1)
         t3_val = st.radio("13. Göz bebekleri hareket ediyor ya da göz kapakları kapalı açmak istenince hasta sıkıyor mu?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # T4 (Evet: 0, Hayır: 1)
         t4_val = st.radio("14. Atak bitiminde hasta etrafını tanıyor mu, sorulara mantıklı cevap veriyor mu?",
-                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                          [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # T5
         t5 = st.radio("15. Atakları hep 1-5 dk mı sürüp sonlanıyor?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T6
         t6 = st.radio("16. Bütün atakları aynı sürede mi bitiyor?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T7
         t7 = st.radio("17. Ataklar sırasında ağız şapırdatma, çiğneme, tükürme, boş etrafa bakma veya otomatizma hareketleri var mı?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T8
         t8 = st.radio("18. Ataklarda gece aniden uykudan uyandırma ve sinirlilik, huzursuzluk, yataktan inme, etrafa zarar verme şeklinde kontrolü zor, bilinç kaybı oluyor mu?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T9
         t9 = st.radio("19. Ataklar başın sağ veya sola döndüğü, kol ve bacaklarda kasılma ve sonrasında sıçrama şeklinde mi sonlanıyor?",
-                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                      [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
         # T10 (Evet: 0, Hayır: 1)
         t10_val = st.radio("20. Ataklarda karın/göğüs yukarı aşağı hareketleri, bisiklet çevirme, başı sürekli sağa sola çevirme şeklinde mi?",
-                           [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                           [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # T11 (Evet: 0, Hayır: 1)
         t11_val = st.radio("21. Ataklar sırasında yüzünün rengi bembeyaz veya sarı renkte mi oluyor?",
-                           [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+                           [0, 1], format_func=lambda x: "Evet" if x==0 else "Hayır", index=1)
         # T12
         t12 = st.radio("22. Ataklarda dil-dudak ısırma oluyor mu?",
-                       [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+                       [1, 0], format_func=lambda x: "Evet" if x==1 else "Hayır", index=1)
 
-    # Toplam Puan Hesaplama
+    # Toplam Puan Hesaplama (Arka Planda Model/Kayıt İçin)
     toplam_epilepsi_puani = (
         h1 + h2 + h3 + h4 + h5_val + h6_val + h7_val + h8_val + h9 + h10 +
         t1 + t2 + t3_val + t4_val + t5 + t6 + t7 + t8 + t9 + t10_val + t11_val + t12
     )
-    
-    st.markdown("---")
-    st.markdown('<div class="section-title">📊 Anlık Klinik Epilepsi Skoru Değerlendirmesi</div>', unsafe_allow_html=True)
-    c_sc1, c_sc2 = st.columns([1, 2])
-    with c_sc1:
-        st.metric("Toplam Epilepsi Skoru", f"{toplam_epilepsi_puani} / 22")
-    with c_sc2:
-        if toplam_epilepsi_puani >= 15:
-            st.success(f"🟢 **Yüksek Olasılıklı Epilepsi Bulguları ({toplam_epilepsi_puani}/22):** Anamnez bulguları kuvvetle epileptik nöbet lehinedir.")
-        elif toplam_epilepsi_puani >= 9:
-            st.warning(f"🟡 **Orta Düzey / Şüpheli Bulgular ({toplam_epilepsi_puani}/22):** Ayırıcı tanıda Senkop ve PNEN bulgularının detaylı irdelenmesi önerilir.")
-        else:
-            st.info(f"🔵 **Düşük Epilepsi Skoru ({toplam_epilepsi_puani}/22):** Bulgular Senkop veya Psikojenik Non-Epileptik Nöbet (PNEN) lehine ağırlıktadır.")
 
     st.markdown("---")
     st.markdown('<div class="section-title">🎯 Kesin Klinik Tanı Etiketi (Danışıklı Öğrenme - Supervised ML İçin)</div>', unsafe_allow_html=True)
@@ -355,11 +341,11 @@ with tab1:
         
         toplam, cloud_ok = append_patient_to_warehouse(yeni_hasta)
         if cloud_ok is True:
-            st.success(f"🎉 **{protokol_no}** başarıyla kaydedildi ve **Google E-Tabloya canlı aktarıldı!** (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
+            st.success(f"🎉 **{protokol_no}** başarıyla kaydedildi ve **Google E-Tabloya canlı aktarıldı!** (Sistemdeki Toplam Vaka: **{toplam}**)")
         elif cloud_ok is False:
-            st.warning(f"💾 **{protokol_no}** yerel ambarına kaydedildi (Bulut bağlantısına ulaşılamadı). (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
+            st.warning(f"💾 **{protokol_no}** yerel ambarına kaydedildi (Bulut bağlantısına ulaşılamadı). (Sistemdeki Toplam Vaka: **{toplam}**)")
         else:
-            st.success(f"🎉 **{protokol_no}** başarıyla Veri Ambarına kaydedildi! (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
+            st.success(f"🎉 **{protokol_no}** başarıyla Veri Ambarına kaydedildi! (Sistemdeki Toplam Vaka: **{toplam}**)")
         st.balloons()
 
 # ==============================================================================
@@ -418,7 +404,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Aniden gelen sebepsiz korku, panik hissi (Aura)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Amigdala ve mezial temporal lob kaynaklı fokal epileptik deşarjlar, bilinç kapanmadan önce ani emosyonel psişik aura yaratır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Panik atak gibi yavaş gelişmez; ortamdan bağımsız, saniyeler içinde aniden başlar.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -426,7 +412,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Mideden yukarı yükselen tuhaf his (Epigastrik Aura)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "İnsular korteks ve mezial temporal yapıların otonomik aktivasyonudur. MTLE (Mezial Temporal Lob Epilepsisi) için en klasik bulgudur.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkoptaki bulantıdan farklıdır; epigastriumdan boğaza doğru yükselen bir dalga hissidir.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -434,7 +420,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Etrafta olmayan kötü koku/tat veya görsel halüsinasyon",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Unkus (koku korteksi - unsinat nöbet) veya oksipital/temporal assosiasyon alanlarındaki fokal elektriksel paroksizmal deşarjlardır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Yanık lastik veya metalik koku/tat doğrudan fokal kortikal odak kanıtıdır; senkop veya PNEN'de olmaz.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -442,7 +428,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Daha önce yaşamışlık (Déjà vu) veya yabancılaşma hissi",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Hipokampus ve parahipokampal girusun disfonksiyonu sonucu hafıza ve algı devrelerinin geçici senkronizasyon kaybıdır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Sağlıklı insanlardaki déjà vu'dan farklı olarak, korkutucu, rüya benzeri ve yabancılaşma hissiyle gelir.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -450,7 +436,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Ayakta dururken göz kararması, baş dönmesi, soğuk terleme",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Geçici serebral hipoperfüzyona bağlı retino-kortikal iskemi (tünel vizyonu) ve otonom sempatik/parasempatik dengesizliktir.",
             "Tanısal Sonuç ve Klinik Anlamı": "Vazovagal / Ortostatik Senkop lehinedir. Gerçek epilepside kademeli göz kararması ve soğuk terleme prodromu görülmez.",
-            "Skorlama": "-1 Puan (Taklitçi / Senkop Lehine)"
+            "Klinik Yönelim": "Taklitçi (Senkop) Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -458,7 +444,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Ayağa kalkma, sıcak ortam, uzun süre ayakta kalma, kan görme",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Venöz göllenme, vazodepresör refleks veya sempatik yetmezliğe bağlı hemodinamik kan basıncı düşüşüdür.",
             "Tanısal Sonuç ve Klinik Anlamı": "Refleks Senkop lehinedir. Ortam ve postür tetikleyicileri elektriksel nöbetten ziyade kardiyovasküler instabiliteyi gösterir.",
-            "Skorlama": "-1 Puan (Taklitçi / Senkop Lehine)"
+            "Klinik Yönelim": "Taklitçi (Senkop) Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -466,7 +452,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Olay sonrası toparlanmanın >15 dk sürmesi, konfüzyon",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Jeneralize deşarj sonrası korteksin enerji tükenmesi ve nörotransmitter deplesyonuna bağlı postiktal serebral depresyondur.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta kan akımı düzelince hasta 1-2 dakikada berraklaşır; PNEN'de ise hemen konuşur.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -474,7 +460,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Uyanınca belirgin yaygın kas ağrısı, yorgunluk ve bitkinlik",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik-klonik fazda tüm iskelet kaslarının yoğun, kontrolsüz ve anaerobik kasılması sonucu laktik asit birikimi ve mikroyırtıklardır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta kas tonusu kaybolup hasta gevşek yığıldığı için ertesi gün şiddetli kas ağrısı oluşmaz.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -482,7 +468,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Dilin özellikle yan (lateral) kenarının derin ısırılması",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Masseter ve temporal kasların tonik spazmı dili diş sıraları arasına sıkıştırır. Özgüllüğü %95'in üzerindedir.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta ısırık olmaz. PNEN'de ise ısırık varsa dil ucu veya dudakta olur; yan kenar ısırığı epilepsidir.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Hastaya Sorulan",
@@ -490,7 +476,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Olay sırasında veya sonrasında idrar kaçırma (enürezis)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik fazdaki aşırı intraabdominal basınç ve ardından gelen otonomik sfinkter tonusunun depresyonudur.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Bilinç kaybı ve konvülziyonla birlikte görülen sfinkter kontrol kaybı nöbet olasılığını belirgin artırır.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         
         # 2. TANIĞA SORULAN SORULAR (T1 - T12)
@@ -500,7 +486,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Yere yığılmadan önce ani çığlık / ses (İktal Feryat)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik spazmla toraks ve diyaframın kasılması sonucu havanın spazm halindeki daralmış kordonlardan dışarı fırlamasıdır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. İstemli bir çığlık değil mekanik ses tellerinin spazmıdır. Senkop sessizdir; PNEN'de ise sözel feryat olur.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -508,7 +494,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Baş veya gözlerin bir yöne kilitlenmesi (Deviasyon)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Frontal göz alanı (FEF) veya kortikal odağın başı ve gözleri zorla karşı yöne çevirmesidir (versif deviasyon).",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Fokal motor lateralizasyonun en kesin belirtisidir; senkopta veya PNEN'de tek yöne tonik deviasyon görülmez.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -516,7 +502,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Olay sırasında gözlerin açık olması",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal nöronal eksitasyon sırasında levator palpebra kas tonusunun açık kalması ve gözlerin yukarı/yana fikse olmasıdır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Nöbette gözler açıktır. PNEN'de ise hastaların >%90'ında gözler sıkı kapalıdır ve açmaya aktif direnç vardır.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -524,7 +510,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Önce kaskatı kesilme (tonik), ardından ritmik sıçrama (klonik)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal jeneralize deşarj önce sürekli eksitasyon (tonik faz), ardından inhibitör devrelerin aralıklı devreye girmesiyle klonik fazı üretir.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Gerçek tonik-klonik nöbetin evrensel ve stereotipik nörofizyolojik sıralamasıdır.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -532,7 +518,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Kasılma ve sıçramaların her iki tarafta düzenli ve ritmik olması",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Korpus kallozum üzerinden iki hemisfer arasında senkronize deşarj yayılımı ve frekansın giderek yavaşlamasıdır.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. PNEN'de ise hareketler ritmik değil asenkron, amaca yönelik olmayan çırpınma ve dalgalanmadır.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -540,7 +526,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Dudaklarda morarma (siyanoz) veya solunumun durması",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "İnterkostal kaslar ve diyaframın tonik kasılması ventilasyonu durdurur (iktal apne) ve parsiyel oksijen basıncı hızla düşer.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Gerçek siyanoz objektif hipoksi göstergesidir. Senkopta solukluk ön plandadır; PNEN'de siyanoz oluşmaz.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -548,7 +534,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Pelvik itme (kalçayı vurma) veya başı iki yana sallama",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal elektriksel deşarj dışı, psikojenik kaynaklı kompleks disosiyatif motor hareketlerdir.",
             "Tanısal Sonuç ve Klinik Anlamı": "PNEN lehinedir. Pelvik thrusting ve başı sağa-sola rotasyonel sallama PNEN için son derece yüksek özgüllüğe sahip negatif bulgudur.",
-            "Skorlama": "-1 Puan (Taklitçi / PNEN Lehine)"
+            "Klinik Yönelim": "Taklitçi (PNEN) Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -556,15 +542,15 @@ with tab3:
             "Klinik Soru ve Bulgu": "Olay sırasında ağlama, çığlık atma veya anlamlı kelimeler",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal bilinç merkezlerinin tamamen kapanmadığını ve limbik-emosyonel motor kontrolün devrede olduğunu gösterir.",
             "Tanısal Sonuç ve Klinik Anlamı": "PNEN lehinedir. Gerçek jeneralize nöbette korteks baskılandığı için hasta anlamlı kelime telaffuz edemez veya ağlayamaz.",
-            "Skorlama": "-1 Puan (Taklitçi / PNEN Lehine)"
+            "Klinik Yönelim": "Taklitçi (PNEN) Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
             "Soru Kodu": "T9",
             "Klinik Soru ve Bulgu": "Kasılma ve sıçramaların süresi (1-2 dakika vs >5-10 dakika)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Epileptik nöbetler intrensek GABAerjik inhibitör devrelerle 1-2 dakikada sonlanır. PNEN ise dalgalı olarak uzar.",
-            "Tanısal Sonuç ve Klinik Anlamı": "1-2 dk sürmesi Epilepsi (+1); 5-10 dakikadan uzun, dalgalı azalıp artan kasılmalar ise PNEN (-1) lehinedir.",
-            "Skorlama": "1-2 dk: +1 Puan / >5 dk: -1 Puan"
+            "Tanısal Sonuç ve Klinik Anlamı": "1-2 dk sürmesi Epilepsi; 5-10 dakikadan uzun, dalgalı azalıp artan kasılmalar ise PNEN lehinedir.",
+            "Klinik Yönelim": "1-2 Dk: Epilepsi / >5 Dk: PNEN"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -572,7 +558,7 @@ with tab3:
             "Klinik Soru ve Bulgu": "Olayın uykuda gerçekleşmesi (Noktürnal)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "NREM uykusunun senkronizan etkisi epileptojenik odakları tetikler (özellikle frontal ve mezial temporal lob).",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Vazovagal veya ortostatik senkop yatay pozisyonda ve uykuda ASLA görülmez. Uykuda olan ataklar epilepsidir.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
@@ -580,15 +566,15 @@ with tab3:
             "Klinik Soru ve Bulgu": "Toparlandıktan sonra kolda/bacakta geçici güçsüzlük (Todd Felci)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "Nöbeti başlatan fokal motor korteksin yoğun deşarj sonrası nöronal tükenmesi ve geçici hiperpolarizasyonudur.",
             "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Atak sonrasında ekstremitede dakikalarca süren geçici felç fokal başlangıçlı epilepsinin kesin kanıtıdır.",
-            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+            "Klinik Yönelim": "Epilepsi Lehine"
         },
         {
             "Grup": "Tanığa Sorulan",
             "Soru Kodu": "T12",
             "Klinik Soru ve Bulgu": "Hastanın olay anını hatırlamaması (İktal Amnezi)",
             "Neden Sorulur? (Patofizyolojik Mekanizma)": "İktal deşarjın hafıza devrelerini (hipokampal assosiasyon korteksi) tamamen bloke ederek yeni kayıt almasını engellemesidir.",
-            "Tanısal Sonuç ve Klinik Anlamı": "Hatırlamama Epilepsi (+1); atak anını ve etraftaki konuşmaları baştan sona net hatırlama ise PNEN (-1) lehinedir.",
-            "Skorlama": "Hatırlamıyor: +1 Puan / Hatırlıyor: -1 Puan"
+            "Tanısal Sonuç ve Klinik Anlamı": "Hatırlamama Epilepsi; atak anını ve etraftaki konuşmaları baştan sona net hatırlama ise PNEN lehinedir.",
+            "Klinik Yönelim": "Hatırlamıyor: Epilepsi / Hatırlıyor: PNEN"
         }
     ]
     
@@ -602,27 +588,27 @@ with tab3:
                 "Tüm Sorular (22 Soru - Kapsamlı Rehber)",
                 "🧑‍🦱 Sadece Hastaya Sorulan Sorular (10 Soru)",
                 "👥 Sadece Tanığa Sorulan Sorular (12 Soru)",
-                "⚡ Sadece Epilepsi Lehine Bulgular (+1 Puan)",
-                "🛑 Sadece Taklitçi (Senkop / PNEN) Lehine Bulgular (-1 Puan)"
+                "⚡ Sadece Epilepsi Lehine Olan Bulgular",
+                "🛑 Sadece Taklitçi (Senkop / PNEN) Lehine Olan Bulgular"
             ]
         )
     with f_col2:
-        st.caption("🔍 **Not:** Sorular TÜBİTAK 2209-A Karar Ağacı puanlama algoritmasında kullanılan klinik sorularla birebir eşleşmektedir.")
+        st.caption("🔍 **Not:** Sorular araştırma projesinde hekimler tarafından değerlendirilen klinik sorularla birebir eşleşmektedir.")
         
     if "Sadece Hastaya" in kategori_filtre:
         df_goster = df_rehber[df_rehber["Grup"] == "Hastaya Sorulan"]
     elif "Sadece Tanığa" in kategori_filtre:
         df_goster = df_rehber[df_rehber["Grup"] == "Tanığa Sorulan"]
     elif "Epilepsi Lehine" in kategori_filtre:
-        df_goster = df_rehber[df_rehber["Skorlama"].str.contains(r"\+1")]
+        df_goster = df_rehber[df_rehber["Klinik Yönelim"].str.contains("Epilepsi")]
     elif "Taklitçi" in kategori_filtre:
-        df_goster = df_rehber[df_rehber["Skorlama"].str.contains(r"-1")]
+        df_goster = df_rehber[df_rehber["Klinik Yönelim"].str.contains("Taklitçi|PNEN|Senkop")]
     else:
         df_goster = df_rehber
         
     # Tablo olarak göster
     st.dataframe(
-        df_goster[["Soru Kodu", "Klinik Soru ve Bulgu", "Neden Sorulur? (Patofizyolojik Mekanizma)", "Tanısal Sonuç ve Klinik Anlamı", "Skorlama"]],
+        df_goster[["Soru Kodu", "Klinik Soru ve Bulgu", "Neden Sorulur? (Patofizyolojik Mekanizma)", "Tanısal Sonuç ve Klinik Anlamı", "Klinik Yönelim"]],
         use_container_width=True,
         hide_index=True
     )
@@ -638,7 +624,7 @@ with tab3:
                 **[{item['Soru Kodu']}] {item['Klinik Soru ve Bulgu']}**  
                 * **Neden (Mekanizma):** {item['Neden Sorulur? (Patofizyolojik Mekanizma)']}  
                 * **Sonuç (Ayırıcı Tanı):** {item['Tanısal Sonuç ve Klinik Anlamı']}  
-                * **Puan:** `{item['Skorlama']}`
+                * **Klinik Yönelim:** `{item['Klinik Yönelim']}`
                 ---
                 """)
         with c_reh2:
@@ -648,7 +634,7 @@ with tab3:
                 **[{item['Soru Kodu']}] {item['Klinik Soru ve Bulgu']}**  
                 * **Neden (Mekanizma):** {item['Neden Sorulur? (Patofizyolojik Mekanizma)']}  
                 * **Sonuç (Ayırıcı Tanı):** {item['Tanısal Sonuç ve Klinik Anlamı']}  
-                * **Puan:** `{item['Skorlama']}`
+                * **Klinik Yönelim:** `{item['Klinik Yönelim']}`
                 ---
                 """)
 
