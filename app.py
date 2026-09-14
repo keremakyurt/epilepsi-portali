@@ -179,93 +179,108 @@ with tab1:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="section-title">1. Özgeçmiş ve Genel Risk Faktörleri</div>', unsafe_allow_html=True)
-        yas = st.number_input("Hastanın Yaşı", min_value=1, max_value=105, value=25)
-        cins = st.selectbox("Cinsiyet", [0, 1], format_func=lambda x: "Erkek" if x==1 else "Kadın")
+        st.markdown('<div class="section-title">👤 Hasta Demografik Bilgileri</div>', unsafe_allow_html=True)
+        c_dem1, c_dem2 = st.columns(2)
+        with c_dem1:
+            yas = st.number_input("Hastanın Yaşı", min_value=1, max_value=105, value=25)
+        with c_dem2:
+            cins = st.selectbox("Cinsiyet", [1, 0], format_func=lambda x: "Erkek" if x==1 else "Kadın")
+            
+        st.markdown('<div class="section-title">📋 1. Hastaya Sorulacak Sorular (10 Soru)</div>', unsafe_allow_html=True)
         
-        q1_1 = st.radio("1.1 Daha önce kafa travması, inme veya menenjit (santral sinir sistemi enfeksiyonu) öyküsü var mı?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_2 = st.radio("1.2 Ailede epilepsi veya çocukluk çağı ateşli havale (febril nöbet) öyküsü var mı?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_3 = st.radio("1.3 Eşlik eden psikiyatrik hastalık (anksiyete, depresyon, konversiyon) veya sekonder kazanç var mı?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_4 = st.radio("1.4 Eşlik eden bilinen bir kardiyolojik rahatsızlık (aritmi vb.) var mı?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_5 = st.radio("1.5 Sabahları uyanınca daha sık olmak üzere, gün içinde ani irkilme şeklinde sıçramalar oluyor mu?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_6 = st.radio("1.6 Ataklar uykusuzluk, yanıp sönen ışıklar (fotik stimülasyon) veya ani ses ile tetikleniyor mu?", 
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_7 = st.radio("1.7 Geçmişte veya atak döneminde hastayı derinden etkileyen ağır psikolojik travma / aşırı stres öyküsü var mı?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q1_8 = st.radio("1.8 Akut Provokasyon: Son 7 günde kafa travması, inme, ağır hipoglisemi veya alkol/madde yoksunluğu var mı?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-
-        st.markdown('<div class="section-title">2. Atak Öncesi (Aura ve Prodromal Dönem)</div>', unsafe_allow_html=True)
-        q2_1 = st.radio("2.1 Atak başlamadan önce mideden yemek borusuna doğru yükselme hissi (gastrointestinal aura) oluyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q2_2 = st.radio("2.2 Atak başlangıcında anlamsız bir korku, kaygı veya anlamsız gülme (jelastik) / ağlama (dakristik) atağı oluyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q2_3 = st.radio("2.3 Atak öncesinde yabancı yeri tanıdık sanma (deja vu), halüsinasyon veya zorlu düşünce gibi hisler oluyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q2_4 = st.radio("2.4 Atak öncesinde yanık lastik kokusu (olfaktör) veya görme alanı değişiklikleri/halüsinasyonlar oluyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q2_5 = st.radio("2.5 Atak başlangıcında terleme artışı, gözlerde kararma, çarpıntı veya solukluk oluyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q2_6 = st.radio("2.6 Ataklardan önce uzun süre ayakta kalma veya aniden ayağa kalkma (ortostatik) durumu var mı?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
+        # H1
+        h1 = st.radio("1. Atak başlangıcında anlamsız korku oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # H2
+        h2 = st.radio("2. Atak başlangıcında anlamsız gülme atağı oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # H3
+        h3 = st.radio("3. Atak başlangıcında anlamsız ağlama atağı oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # H4
+        h4 = st.radio("4. Atak başlangıcında mideden yemek borusuna doğru yükselme hissi oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # H5 (Evet: 0, Hayır: 1)
+        h5_val = st.radio("5. Atak başlangıcında çarpıntı oluyor mu?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # H6 (Evet: 0, Hayır: 1)
+        h6_val = st.radio("6. Atak başlangıcında terleme artışı, gözlerde kararma oluyor mu?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # H7 (Evet: 0, Hayır: 1)
+        h7_val = st.radio("7. Ataklar hep yalnızken, etrafta kimse yokken mi oluyor?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # H8 (Evet: 0, Hayır: 1)
+        h8_val = st.radio("8. Ataklar sonrası ağlama oluyor mu?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # H9
+        h9 = st.radio("9. Sabahları daha çok olmak üzere gün içinde ani irkilme şeklinde sıçramalar oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # H10
+        h10 = st.radio("10. Ataklarda düşme sonucu kafaya dikiş atılması, kol-bacak alçıya alınma durumu oldu mu?",
+                       [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
 
     with col2:
-        st.markdown('<div class="section-title">3. Atak Anı (İktal Dönem) - Fiziksel Bulgular</div>', unsafe_allow_html=True)
-        q3_1 = st.radio("3.1 Ataklar hep yalnızken mi (1), sadece seyirci / belli kişilerin yanındayken mi (0) oluyor?",
-                        [1, 0], format_func=lambda x: "Yalnızken de olabiliyor (1)" if x==1 else "Sadece seyirci varken (0)", index=0)
-        q3_2 = st.radio("3.2 Ataklar uykuda iken mi (1), yoksa sadece uyanıkken mi (0) gerçekleşiyor?",
-                        [0, 1], format_func=lambda x: "Uykuda da oluyor (1)" if x==1 else "Sadece uyanıkken (0)", index=0)
-        q3_3 = st.radio("3.3 Atakların başlama şekli nasıldır?",
-                        [1, 0], format_func=lambda x: "Ani (1)" if x==1 else "Kademeli / Yavaş Yavaş (0)", index=0)
-        q3_4 = st.radio("3.4 Atakların süresi ortalama ne kadardır ve stereotipik midir?",
-                        [0, 1, 2], format_func=lambda x: "Saniyeler (<1 dk) (0)" if x==0 else ("1 - 5 dk benzer süre (1)" if x==1 else "10 - 15 dk veya değişken saatler (2)"), index=1)
-        q3_5 = st.radio("3.5 Atak sırasında gözlerin durumu nasıldır?",
-                        [1, 0], format_func=lambda x: "Açık / Yukarı Sabit Fiksasyon (1)" if x==1 else "Sıkı Kapalı, Açmaya Karşı Dirençli (0)", index=0)
-        q3_6 = st.radio("3.6 Ataklarda yüzün rengi morarıyor mu (siyanoz), yoksa bembeyaz/soluk mu oluyor?",
-                        [1, 0], format_func=lambda x: "Siyanoz / Dudaklarda Morarma (1)" if x==1 else "Soluk / Bembeyaz (0)", index=0)
-        q3_7 = st.radio("3.7 Atak sırasında kasılmaların şekli nasıldır?",
-                        [1, 0], format_func=lambda x: "Koordineli tonik-klonik kasılma (1)" if x==1 else "Karın atması, bisiklet, çırpınma (0)", index=0)
-        q3_8 = st.radio("3.8 Ataklar başın sağ/sola döndüğü (versif), kol-bacakta kasılma ve sıçrama şeklinde mi sonlanıyor?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q3_9 = st.radio("3.9 Ağız şapırdatma, çiğneme, tükürme, üzerini arama (otomatizma) hareketleri var mı?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q3_10 = st.radio("3.10 Ataklarda dil veya dudak ısırılması gerçekleşiyor mu? Ne şekilde?",
-                         [1, 0, 2], format_func=lambda x: "Dilin YAN (Lateral) Kenarı (1)" if x==1 else ("Dilin Ucu veya Dudak (0)" if x==0 else "Isırık Yok (2)"), index=2)
-        q3_11 = st.radio("3.11 Atak anında idrar veya gaita (büyük abdest) kaçırma durumu (inkontinans) oluyor mu?",
-                         [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q3_12 = st.radio("3.12 Gece aniden uykudan uyanıp sinirlilik, yataktan inme, etrafa zarar verme oluyor mu?",
-                         [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q3_13 = st.radio("3.13 Sağlık personeli/112 tarafından pupiller ışık refleksinin korunduğu tespit edildi mi?",
-                         [0, 1, 2], format_func=lambda x: "Evet, Korunmuş (1)" if x==1 else ("Hayır, Refleks Kayıp (0)" if x==0 else "Bilinmiyor / Bakılmadı (2)"), index=2)
-        q3_14 = st.radio("3.14 Atak sırasında gövdede ve kalçada öne doğru şiddetli itme (pelvik itme) hareketi var mı?",
-                         [1, 0], format_func=lambda x: "Evet (0) [Pelvik İtme Var]" if x==0 else "Hayır (1)", index=0)
-        q3_15 = st.radio("3.15 Atak esnasındaki ses çıkarma ve solunum düzeni hangisine daha çok uyuyor?",
-                         [1, 0], format_func=lambda x: "Başlangıçta ani çığlık (iktal feryat) ve hırıltılı solunum (1)" if x==1 else "Anlaşılır kelimeler, inleme ve hızlı nefes (0)", index=0)
-        q3_16 = st.radio("3.16 Çevredeki insanların varlığı veya ilgisi nöbetin şiddetini artırıyor mu?",
-                         [1, 0], format_func=lambda x: "Evet, ilgiyle artıyor (0)" if x==0 else "Hayır, bağımsız (1)", index=0)
-        q3_17 = st.radio("3.17 Atakların sıklığı genellikle nasıldır?",
-                         [1, 0], format_func=lambda x: "Haftada, ayda veya yılda bir gibi seyrek (1)" if x==1 else "Günde birkaç defa ve çok sık aralarla (0)", index=0)
+        st.markdown('<div class="section-title">👁️ 2. Atak Anına Tanık Olanlara Sorulacak Sorular (12 Soru)</div>', unsafe_allow_html=True)
+        
+        # T1
+        t1 = st.radio("11. Gözler atak sırasında açık mı?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T2
+        t2 = st.radio("12. Gözler yukarı doğru sabit mi?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T3 (Evet: 0, Hayır: 1)
+        t3_val = st.radio("13. Göz bebekleri hareket ediyor ya da göz kapakları kapalı açmak istenince hasta sıkıyor mu?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # T4 (Evet: 0, Hayır: 1)
+        t4_val = st.radio("14. Atak bitiminde hasta etrafını tanıyor mu, sorulara mantıklı cevap veriyor mu?",
+                          [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # T5
+        t5 = st.radio("15. Atakları hep 1-5 dk mı sürüp sonlanıyor?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T6
+        t6 = st.radio("16. Bütün atakları aynı sürede mi bitiyor?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T7
+        t7 = st.radio("17. Ataklar sırasında ağız şapırdatma, çiğneme, tükürme, boş etrafa bakma veya otomatizma hareketleri var mı?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T8
+        t8 = st.radio("18. Ataklarda gece aniden uykudan uyandırma ve sinirlilik, huzursuzluk, yataktan inme, etrafa zarar verme şeklinde kontrolü zor, bilinç kaybı oluyor mu?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T9
+        t9 = st.radio("19. Ataklar başın sağ veya sola döndüğü, kol ve bacaklarda kasılma ve sonrasında sıçrama şeklinde mi sonlanıyor?",
+                      [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
+        # T10 (Evet: 0, Hayır: 1)
+        t10_val = st.radio("20. Ataklarda karın/göğüs yukarı aşağı hareketleri, bisiklet çevirme, başı sürekli sağa sola çevirme şeklinde mi?",
+                           [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # T11 (Evet: 0, Hayır: 1)
+        t11_val = st.radio("21. Ataklar sırasında yüzünün rengi bembeyaz veya sarı renkte mi oluyor?",
+                           [0, 1], format_func=lambda x: "Evet (0 Puan)" if x==0 else "Hayır (1 Puan)", index=1)
+        # T12
+        t12 = st.radio("22. Ataklarda dil-dudak ısırma oluyor mu?",
+                       [1, 0], format_func=lambda x: "Evet (1 Puan)" if x==1 else "Hayır (0 Puan)", index=1)
 
-        st.markdown('<div class="section-title">4. Atak Sonrası (Post-iktal Dönem)</div>', unsafe_allow_html=True)
-        q4_1 = st.radio("4.1 Atak bitiminde hasta etrafını anında tanıyor mu, yoksa bir süre bilinç bulanıklığı (konfüzyon) yaşıyor mu?",
-                        [1, 0], format_func=lambda x: "Konfüzyon Var, Uyku Hali Sürüyor (1)" if x==1 else "Anında Kendine Geliyor (0)", index=0)
-        q4_2 = st.radio("4.2 Hasta atağın gerçekleştiği ana dair hiçbir şey hatırlamıyor mu (amnezi var mı)?",
-                        [1, 0], format_func=lambda x: "Evet, Hiç Hatırlamıyor (1)" if x==1 else "Hayır, Olayları Hatırlıyor (0)", index=0)
-        q4_3 = st.radio("4.3 Atak bittikten hemen sonra ağlama sesleri veya ağlama krizi yaşanıyor mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q4_4 = st.radio("4.4 Ataklarda düşme sonucu kafaya dikiş atılması, kemik kırılması gibi ciddi travmatik yaralanmalar oldu mu?",
-                        [0, 1], format_func=lambda x: "Evet (1)" if x==1 else "Hayır (0)", index=0)
-        q4_5 = st.radio("4.5 Ataklar peş peşe geliyorsa, iki atak arasındaki dinlenme süresinde hastanın durumu nasıldır?",
-                        [1, 0], format_func=lambda x: "Uyku hali, sersemlik devam ediyor (1)" if x==1 else "Tamamen normale dönüyor, konuşabiliyor (0)", index=0)
+    # Toplam Puan Hesaplama
+    toplam_epilepsi_puani = (
+        h1 + h2 + h3 + h4 + h5_val + h6_val + h7_val + h8_val + h9 + h10 +
+        t1 + t2 + t3_val + t4_val + t5 + t6 + t7 + t8 + t9 + t10_val + t11_val + t12
+    )
+    
+    st.markdown("---")
+    st.markdown('<div class="section-title">📊 Anlık Klinik Epilepsi Skoru Değerlendirmesi</div>', unsafe_allow_html=True)
+    c_sc1, c_sc2 = st.columns([1, 2])
+    with c_sc1:
+        st.metric("Toplam Epilepsi Skoru", f"{toplam_epilepsi_puani} / 22")
+    with c_sc2:
+        if toplam_epilepsi_puani >= 15:
+            st.success(f"🟢 **Yüksek Olasılıklı Epilepsi Bulguları ({toplam_epilepsi_puani}/22):** Anamnez bulguları kuvvetle epileptik nöbet lehinedir.")
+        elif toplam_epilepsi_puani >= 9:
+            st.warning(f"🟡 **Orta Düzey / Şüpheli Bulgular ({toplam_epilepsi_puani}/22):** Ayırıcı tanıda Senkop ve PNEN bulgularının detaylı irdelenmesi önerilir.")
+        else:
+            st.info(f"🔵 **Düşük Epilepsi Skoru ({toplam_epilepsi_puani}/22):** Bulgular Senkop veya Psikojenik Non-Epileptik Nöbet (PNEN) lehine ağırlıktadır.")
 
     st.markdown("---")
-    st.markdown('<div class="section-title">🎯 5. Danışıklı Öğrenme (Supervised ML) İçin Kesin Tanı Etiketi</div>', unsafe_allow_html=True)
-    st.caption("İleride makine öğrenmesi karar ağacının eğitilebilmesi için Nöroloji Uzmanı (Danışman Hoca / Klinik Kurul) tarafından konulan kesinleşmiş altın standart tanıyı seçiniz:")
+    st.markdown('<div class="section-title">🎯 Kesin Klinik Tanı Etiketi (Danışıklı Öğrenme - Supervised ML İçin)</div>', unsafe_allow_html=True)
+    st.caption("İleride karar ağacı modelinin eğitilebilmesi için Nöroloji Uzmanı (Danışman Hoca / Klinik Kurul) tarafından konulan kesinleşmiş altın standart tanıyı seçiniz:")
     
     tani_secenekleri = [
         "Epilepsi - Fokal Başlangıçlı (Auralı/Otomatizmalı)",
@@ -292,57 +307,44 @@ with tab1:
             "Yas": yas,
             "Cinsiyet": cins,
             
-            "S1_Gecmis_Beyin_Hasari": q1_1,
-            "S1_Aile_Epilepsi_Febril": q1_2,
-            "S1_Psikiyatrik_Hastalik": q1_3,
-            "S1_Kardiyolojik_Hastalik": q1_4,
-            "S1_JME_Sabah_Sicramalari": q1_5,
-            "S1_Fotik_Tetik_Isik": q1_6,
-            "S1_Psikolojik_Agir_Travma": q1_7,
-            "S1_Akut_Provokasyon_Neden": q1_8,
+            # 1. Hastaya Sorulacak Sorular (Puanları)
+            "H1_Anlamsiz_Korku": h1,
+            "H2_Anlamsiz_Gulme": h2,
+            "H3_Anlamsiz_Aglama": h3,
+            "H4_Mideden_Yukselme": h4,
+            "H5_Carpinti": h5_val,
+            "H6_Terleme_Goz_Kararma": h6_val,
+            "H7_Hep_Yalnizken": h7_val,
+            "H8_Atak_Sonrasi_Aglama": h8_val,
+            "H9_Sabah_Sicramalari": h9,
+            "H10_Dusme_Dikis_Alci": h10,
             
-            "S2_Aura_Gastrointestinal": q2_1,
-            "S2_Aura_Emosyonel": q2_2,
-            "S2_Aura_Dejavu_Bilisel": q2_3,
-            "S2_Aura_Koku_Gorme_Duyusal": q2_4,
-            "S2_Prodrom_Terleme_Solukluk": q2_5,
-            "S2_Tetik_Ayakta_Ortostatik": q2_6,
+            # 2. Atak Anına Tanık Olanlara Sorulacak Sorular (Puanları)
+            "T1_Gozler_Acik": t1,
+            "T2_Gozler_Yukari_Sabit": t2,
+            "T3_Goz_Kapak_Sikma": t3_val,
+            "T4_Etrafini_Tanima": t4_val,
+            "T5_Hep_1_5_Dk": t5,
+            "T6_Ayni_Surede_Bitis": t6,
+            "T7_Agiz_Sapurdatma_Otomatizma": t7,
+            "T8_Gece_Huzursuz_Uyanma": t8,
+            "T9_Bas_Donmesi_Kasilma_Sicrama": t9,
+            "T10_Karin_Gogus_Bisiklet_Hareket": t10_val,
+            "T11_Yuz_Bembeyaz_Sari": t11_val,
+            "T12_Dil_Dudak_Isirma": t12,
             
-            "S3_Yalnizken_vs_Seyirci": q3_1,
-            "S3_Uykuda_vs_Uyanik": q3_2,
-            "S3_Baslama_Ani_vs_Kademeli": q3_3,
-            "S3_Sure_Kategori": q3_4,
-            "S3_Gozlerin_Durumu": q3_5,
-            "S3_Yuz_Rengi_Siyanoz": q3_6,
-            "S3_Kasilma_Sekli": q3_7,
-            "S3_Versif_Bas_Donmesi": q3_8,
-            "S3_Otomatizma": q3_9,
-            "S3_Dil_Isirma_Lokalizasyonu": q3_10,
-            "S3_Inkontinans": q3_11,
-            "S3_Nokturnal_Parasomni_Atak": q3_12,
-            "S3_Pupil_Isik_Refleksi": q3_13,
-            "S3_Pelvik_Itme_Hareketi": q3_14,
-            "S3_Ses_Solunum_Paterni": q3_15,
-            "S3_Seyirci_Ilgi_Etkisi": q3_16,
-            "S3_Atak_Sikligi": q3_17,
-            
-            "S4_Postiktal_Konfuzyon": q4_1,
-            "S4_Amnezi_Var_mi": q4_2,
-            "S4_Aglama_Krizi": q4_3,
-            "S4_Ciddi_Travmatik_Yaralanma": q4_4,
-            "S4_Kume_Ataklar_Arasi_Durum": q4_5,
-            
+            "Toplam_Epilepsi_Skoru": toplam_epilepsi_puani,
             "Kesin_Klinik_Tani": kesin_tani,
             "Klinik_Not": klinik_not
         }
         
         toplam, cloud_ok = append_patient_to_warehouse(yeni_hasta)
         if cloud_ok is True:
-            st.success(f"🎉 **{protokol_no}** başarıyla kaydedildi ve **Google E-Tabloya canlı aktarıldı!** (Veri Tabanındaki Toplam Vaka: **{toplam}**)")
+            st.success(f"🎉 **{protokol_no}** başarıyla kaydedildi ve **Google E-Tabloya canlı aktarıldı!** (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
         elif cloud_ok is False:
-            st.warning(f"💾 **{protokol_no}** yerel ambarına kaydedildi, ancak Google E-Tablo bağlantısına ulaşılamadı. (Toplam Vaka: **{toplam}**)")
+            st.warning(f"💾 **{protokol_no}** yerel ambarına kaydedildi (Bulut bağlantısına ulaşılamadı). (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
         else:
-            st.success(f"🎉 **{protokol_no}** başarıyla Veri Ambarına kaydedildi! (Veri Tabanındaki Toplam Vaka: **{toplam}**)")
+            st.success(f"🎉 **{protokol_no}** başarıyla Veri Ambarına kaydedildi! (Skor: {toplam_epilepsi_puani}/22 | Toplam Vaka: **{toplam}**)")
         st.balloons()
 
 # ==============================================================================
