@@ -280,16 +280,9 @@ with tab1:
     st.caption("İleride karar ağacı modelinin eğitilebilmesi için Nöroloji Uzmanı (Danışman Hoca / Klinik Kurul) tarafından konulan kesinleşmiş altın standart tanıyı seçiniz:")
     
     tani_secenekleri = [
-        "Epilepsi - Fokal Başlangıçlı (Auralı/Otomatizmalı)",
-        "Epilepsi - Jeneralize Tonik-Klonik (GTC)",
-        "Epilepsi - Juvenil Miyoklonik (JME)",
-        "Epilepsi - Nokturnal (Uykuda Gelen Nöbet)",
-        "Epilepsi - Fokalden Bilateral Tonik-Kloniğe Geçiş",
-        "Epilepsi - Sınıflandırılamayan / Belirsiz Başlangıçlı",
-        "Vazovagal / Ortostatik Senkop",
-        "Kardiyojenik Senkop",
-        "Psikojenik Non-Epileptik Nöbet (PNEN / Konversiyon)",
-        "Akut Semptomatik (Provoke) Nöbet",
+        "Epilepsi (Epileptik Nöbet)",
+        "Psikojenik Non-Epileptik Nöbet (PNEN)",
+        "Senkop",
         "Tanı Henüz Netleşmedi / Tetkik Aşamasında"
     ]
     kesin_tani = st.selectbox("Nöroloji Uzmanı Kesin Tanısı (Ground Truth Label)", tani_secenekleri, index=0)
