@@ -103,10 +103,22 @@ def load_warehouse():
                 raw_data = resp.json()
                 if isinstance(raw_data, list):
                     if len(raw_data) > 1:
-                        header = raw_data[0]
-                        rows = [r for r in raw_data[1:] if any(str(c).strip() for c in r)]
-                        if rows:
-                            return pd.DataFrame(rows, columns=header)
+                        raw_header = raw_data[0]
+                        raw_rows = [r for r in raw_data[1:] if any(str(c).strip() for c in r)]
+                        if raw_rows:
+                            max_len = max(len(raw_header), max(len(r) for r in raw_rows))
+                            clean_headers = []
+                            for i in range(max_len):
+                                col_name = str(raw_header[i]).strip() if i < len(raw_header) else ""
+                                if not col_name:
+                                    col_name = f"Sutun_{i+1}"
+                                elif col_name in clean_headers:
+                                    col_name = f"{col_name}_{i+1}"
+                                clean_headers.append(col_name)
+                                
+                            padded_rows = [r + [''] * (max_len - len(r)) for r in raw_rows]
+                            df_live = pd.DataFrame(padded_rows, columns=clean_headers)
+                            return df_live
                         else:
                             return pd.DataFrame()
                     elif len(raw_data) <= 1:
@@ -382,11 +394,30 @@ with tab2:
     else:
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Toplam Kayıtlı Vaka", len(df_current))
-        m2.metric("Yaş Ortalaması", f"{df_current['Yas'].mean():.1f}")
-        erkek_oran = (df_current['Cinsiyet'] == 1).mean() * 100
-        m3.metric("Erkek / Kadın Dağılımı", f"%{erkek_oran:.0f} Erkek")
-        kesinlesen = (df_current['Kesin_Klinik_Tani'] != "Tanı Henüz Netleşmedi / Tetkik Aşamasında").sum()
-        m4.metric("Kesin Tanısı Konan", f"{kesinlesen} / {len(df_current)}")
+        
+        # Yaş ortalaması (sayısal dönüştürme ile hatasız)
+        yas_mean = "-"
+        if "Yas" in df_current.columns:
+            yas_numeric = pd.to_numeric(df_current["Yas"], errors="coerce")
+            if not yas_numeric.dropna().empty:
+                yas_mean = f"{yas_numeric.mean():.1f}"
+        m2.metric("Yaş Ortalaması", yas_mean)
+        
+        # Cinsiyet oranı (güvenli)
+        erkek_str = "-"
+        if "Cinsiyet" in df_current.columns:
+            cins_numeric = pd.to_numeric(df_current["Cinsiyet"], errors="coerce")
+            if not cins_numeric.dropna().empty:
+                erkek_oran = (cins_numeric == 1).mean() * 100
+                erkek_str = f"%{erkek_oran:.0f} Erkek"
+        m3.metric("Erkek / Kadın Dağılımı", erkek_str)
+        
+        # Kesin tanı sayısı (güvenli)
+        kesin_str = f"0 / {len(df_current)}"
+        if "Kesin_Klinik_Tani" in df_current.columns:
+            kesinlesen = (df_current["Kesin_Klinik_Tani"].astype(str).str.strip() != "Tanı Henüz Netleşmedi / Tetkik Aşamasında").sum()
+            kesin_str = f"{kesinlesen} / {len(df_current)}"
+        m4.metric("Kesin Tanısı Konan", kesin_str)
         
         st.markdown("#### 📋 Veri Ambarı Tablosu")
         st.dataframe(df_current, use_container_width=True)
