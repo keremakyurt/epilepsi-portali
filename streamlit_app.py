@@ -372,46 +372,6 @@ with tab2:
     webhook_url, csv_url = get_gsheets_config()
     if webhook_url:
         st.success("🟢 **Canlı Bulut Senkronizasyonu Aktif:** Tüm hekimlerin girdiği yeni hastalar ortak Google E-Tablosuna anında kaydedilmektedir.")
-    else:
-        st.info("💡 **Yerel Çalışma Modu:** Hasta kayıtları şu an bu sistemdeki yerel veri ambarında toplanmaktadır. Diğer hekimlerle 7/24 ortak Google E-Tablo kullanmak için aşağıdaki kurulum panelini açabilirsiniz.")
-        
-    with st.expander("⚙️ Canlı Google E-Tablo (Google Sheets) Bulut Bağlantı Ayarları & Kurulumu"):
-        st.markdown("""
-        Diğer hekimlerin poliklinikten veya akıllı telefonlarından girdikleri vakaların doğrudan ortak bir Google E-Tabloya (Google Sheets) canlı akması için:
-        
-        **1 Dakikalık Kurulum Adımları:**
-        1. [Google Drive](https://drive.google.com) üzerinde yeni ve boş bir **Google E-Tablo** oluşturun (Örn: `Epilepsi_Hasta_Veri_Ambari`).
-        2. E-Tablo açıkken üst menüden **Uzantılar (Extensions) ➔ Apps Script** seçeneğine tıklayın.
-        3. Açılan kod penceresine aşağıdaki 10 satırlık kodu yapıştırıp kaydedin:
-        ```javascript
-        function doPost(e) {
-          var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-          var data = JSON.parse(e.postData.contents);
-          if (sheet.getLastRow() === 0) {
-            sheet.appendRow(Object.keys(data));
-          }
-          sheet.appendRow(Object.values(data));
-          return ContentService.createTextOutput(JSON.stringify({"status": "success"})).setMimeType(ContentService.MimeType.JSON);
-        }
-        ```
-        4. Sağ üstteki mavi **Dağıt (Deploy) ➔ Yeni Dağıtım (New deployment)** butonuna basın.
-        5. Tür olarak **Web Uygulaması (Web app)** seçin:
-           * *Yürütücü (Execute as):* **Ben (E-posta adresiniz)**
-           * *Erişimi olanlar (Who has access):* **Herkes (Anyone)**
-        6. **Dağıt** deyin ve size verilen **Web Uygulaması URL'sini (Web app URL)** kopyalayıp aşağıdaki kutucuğa yapıştırın:
-        """)
-        
-        cfg_col1, cfg_col2 = st.columns(2)
-        with cfg_col1:
-            in_webhook = st.text_input("Google Apps Script Webhook URL", value=webhook_url, placeholder="https://script.google.com/macros/s/.../exec")
-            if in_webhook.strip() != webhook_url:
-                st.session_state["gsheets_webhook_url"] = in_webhook.strip()
-                st.rerun()
-        with cfg_col2:
-            in_csv = st.text_input("Google E-Tablo CSV Linki (İsteğe Bağlı - Tabloyu Canlı Okumak İçin)", value=csv_url, placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv")
-            if in_csv.strip() != csv_url:
-                st.session_state["gsheets_csv_url"] = in_csv.strip()
-                st.rerun()
                 
     st.markdown("---")
     df_current = load_warehouse()
