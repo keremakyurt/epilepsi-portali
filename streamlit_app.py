@@ -160,8 +160,8 @@ with tab1:
         protokol_no = st.text_input("Anonim Protokol / Dosya No", value=default_protokol, help="Hastanın kimlik bilgilerini gizli tutmak için otomatik üretilen kod.")
     with col_meta2:
         hekim_rolleri = [
-            "Dr. Kerem Akyurt",
-            "Dr. Özge Orhan",
+            "Kerem Akyurt",
+            "Özge Orhan",
             "Doç. Dr. Nermin Tepe (Danışman / Klinik Sorumlusu)",
             "Nöroloji Poliklinik Hekimi / Asistanı",
             "Acil Tıp Hekimi / Nöbetçi Hekim",
@@ -407,64 +407,250 @@ with tab2:
 # SEKME 3: TAKLİTÇİLER VE KARŞILAŞTIRMA REHBERİ
 # ==============================================================================
 with tab3:
-    st.markdown("### 👁️ Epilepsi, PNEN ve Senkop Ayırıcı Tanı Kılavuzu")
-    st.caption("Klinikte hasta değerlendirirken yararlanabileceğiniz karşılaştırmalı referans tablosu.")
+    st.markdown("### 👁️ Klinik Karar Ağacı Sorularının Patofizyolojik Nedenleri ve Ayırıcı Tanı Sonuçları")
+    st.caption("TÜBİTAK 2209-A projesinde hekimler tarafından değerlendirilen 22 sorunun nörolojik arka planı, klinik mekanizması (Neden) ve ayırıcı tanıdaki karşılığı (Sonuç: Epilepsi vs. Senkop / PNEN).")
     
-    comp_df = pd.DataFrame({
-        "Klinik Parametre": [
-            "Atak Başlangıcı / Hızı",
-            "Ortam ve Seyirci Etkisi",
-            "Uykuda Gerçekleşme",
-            "Gözlerin Durumu (İktal)",
-            "Dil Isırma Bölgesi",
-            "Kasılma / Hareket Paterni",
-            "Pelvik İtme (Thrusting)",
-            "Ses ve Solunum",
-            "Atak Süresi",
-            "Pupil Işık Refleksi",
-            "Ataklar Arası Durum (Küme)"
-        ],
-        "Gerçek Epileptik Nöbet": [
-            "Ani başlar (saniyeler içinde)",
-            "Seyirciden bağımsız, yalnızken de olur",
-            "Sık görülür (özellikle uykuda/uyanırken)",
-            "GÖZLER AÇIK, yukarı/yana fiksasyon",
-            "DİLİN YAN (LATERAL) KENARI derin ısırılır",
-            "Senkron, ritmik, koordineli tonik-klonik",
-            "Çok nadir / Gözlenmez",
-            "Başlangıçta iktal feryat (çığlık) + hırıltı",
-            "Genellikle 1 - 2 dakika",
-            "Genellikle kaybolur / pupil dilate",
-            "Konfüzyon, uyku ve sersemlik devam eder"
-        ],
-        "Vazovagal / Ortostatik Senkop": [
-            "Kademeli (göz kararması, bulantı prodromu)",
-            "Ayakta durma, sıcak ortam, kan görme tetikler",
-            "Uykuda ASLA görülmez",
-            "Gözler açık veya hafif kaymış, gevşek",
-            "Genellikle ısırık YOK (nadiren dil ucu)",
-            "Ani tonus kaybı (yığılma), kısa multifokal miyokloni",
-            "ASLA GÖRÜLMEZ",
-            "Sessiz / Solukluk ve terleme",
-            "Çok kısa (< 30-60 saniye)",
-            "Korunmuştur",
-            "Hasta hızla normale döner"
-        ],
-        "PNEN (Psikojenik / Konversiyon)": [
-            "Kademeli, dalgalı başlangıç",
-            "Sıklıkla seyirci varken veya stres sonrası",
-            "Uykuda bildirilse de gerçekte uyanıklıkta",
-            "GÖZLER SIKI KAPALI, AÇMAYA AKTİF DİRENÇ",
-            "Dil ucu, dudak ısırığı veya ısırık yok",
-            "Asenkron çırpınma, başı sallama, karın atması",
-            "Sıklıkla gözlemlenir (patognomonik)",
-            "Anlaşılır kelimeler, inleme, hızlı nefes",
-            "Uzun (>10-30 dakika veya saatler)",
-            "KORUNMUŞTUR (Normal ışık refleksi)",
-            "Hasta atak biter bitmez konuşur, çay içer"
-        ]
-    })
-    st.dataframe(comp_df, use_container_width=True, hide_index=True)
+    sorular_rehberi = [
+        # 1. HASTAYA SORULAN SORULAR (H1 - H10)
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H1",
+            "Klinik Soru ve Bulgu": "Aniden gelen sebepsiz korku, panik hissi (Aura)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Amigdala ve mezial temporal lob kaynaklı fokal epileptik deşarjlar, bilinç kapanmadan önce ani emosyonel psişik aura yaratır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Panik atak gibi yavaş gelişmez; ortamdan bağımsız, saniyeler içinde aniden başlar.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H2",
+            "Klinik Soru ve Bulgu": "Mideden yukarı yükselen tuhaf his (Epigastrik Aura)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "İnsular korteks ve mezial temporal yapıların otonomik aktivasyonudur. MTLE (Mezial Temporal Lob Epilepsisi) için en klasik bulgudur.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkoptaki bulantıdan farklıdır; epigastriumdan boğaza doğru yükselen bir dalga hissidir.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H3",
+            "Klinik Soru ve Bulgu": "Etrafta olmayan kötü koku/tat veya görsel halüsinasyon",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Unkus (koku korteksi - unsinat nöbet) veya oksipital/temporal assosiasyon alanlarındaki fokal elektriksel paroksizmal deşarjlardır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Yanık lastik veya metalik koku/tat doğrudan fokal kortikal odak kanıtıdır; senkop veya PNEN'de olmaz.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H4",
+            "Klinik Soru ve Bulgu": "Daha önce yaşamışlık (Déjà vu) veya yabancılaşma hissi",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Hipokampus ve parahipokampal girusun disfonksiyonu sonucu hafıza ve algı devrelerinin geçici senkronizasyon kaybıdır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Sağlıklı insanlardaki déjà vu'dan farklı olarak, korkutucu, rüya benzeri ve yabancılaşma hissiyle gelir.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H5",
+            "Klinik Soru ve Bulgu": "Ayakta dururken göz kararması, baş dönmesi, soğuk terleme",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Geçici serebral hipoperfüzyona bağlı retino-kortikal iskemi (tünel vizyonu) ve otonom sempatik/parasempatik dengesizliktir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Vazovagal / Ortostatik Senkop lehinedir. Gerçek epilepside kademeli göz kararması ve soğuk terleme prodromu görülmez.",
+            "Skorlama": "-1 Puan (Taklitçi / Senkop Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H6",
+            "Klinik Soru ve Bulgu": "Ayağa kalkma, sıcak ortam, uzun süre ayakta kalma, kan görme",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Venöz göllenme, vazodepresör refleks veya sempatik yetmezliğe bağlı hemodinamik kan basıncı düşüşüdür.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Refleks Senkop lehinedir. Ortam ve postür tetikleyicileri elektriksel nöbetten ziyade kardiyovasküler instabiliteyi gösterir.",
+            "Skorlama": "-1 Puan (Taklitçi / Senkop Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H7",
+            "Klinik Soru ve Bulgu": "Olay sonrası toparlanmanın >15 dk sürmesi, konfüzyon",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Jeneralize deşarj sonrası korteksin enerji tükenmesi ve nörotransmitter deplesyonuna bağlı postiktal serebral depresyondur.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta kan akımı düzelince hasta 1-2 dakikada berraklaşır; PNEN'de ise hemen konuşur.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H8",
+            "Klinik Soru ve Bulgu": "Uyanınca belirgin yaygın kas ağrısı, yorgunluk ve bitkinlik",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik-klonik fazda tüm iskelet kaslarının yoğun, kontrolsüz ve anaerobik kasılması sonucu laktik asit birikimi ve mikroyırtıklardır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta kas tonusu kaybolup hasta gevşek yığıldığı için ertesi gün şiddetli kas ağrısı oluşmaz.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H9",
+            "Klinik Soru ve Bulgu": "Dilin özellikle yan (lateral) kenarının derin ısırılması",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Masseter ve temporal kasların tonik spazmı dili diş sıraları arasına sıkıştırır. Özgüllüğü %95'in üzerindedir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Senkopta ısırık olmaz. PNEN'de ise ısırık varsa dil ucu veya dudakta olur; yan kenar ısırığı epilepsidir.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Hastaya Sorulan",
+            "Soru Kodu": "H10",
+            "Klinik Soru ve Bulgu": "Olay sırasında veya sonrasında idrar kaçırma (enürezis)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik fazdaki aşırı intraabdominal basınç ve ardından gelen otonomik sfinkter tonusunun depresyonudur.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Bilinç kaybı ve konvülziyonla birlikte görülen sfinkter kontrol kaybı nöbet olasılığını belirgin artırır.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        
+        # 2. TANIĞA SORULAN SORULAR (T1 - T12)
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T1",
+            "Klinik Soru ve Bulgu": "Yere yığılmadan önce ani çığlık / ses (İktal Feryat)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Tonik spazmla toraks ve diyaframın kasılması sonucu havanın spazm halindeki daralmış kordonlardan dışarı fırlamasıdır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. İstemli bir çığlık değil mekanik ses tellerinin spazmıdır. Senkop sessizdir; PNEN'de ise sözel feryat olur.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T2",
+            "Klinik Soru ve Bulgu": "Baş veya gözlerin bir yöne kilitlenmesi (Deviasyon)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Frontal göz alanı (FEF) veya kortikal odağın başı ve gözleri zorla karşı yöne çevirmesidir (versif deviasyon).",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Fokal motor lateralizasyonun en kesin belirtisidir; senkopta veya PNEN'de tek yöne tonik deviasyon görülmez.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T3",
+            "Klinik Soru ve Bulgu": "Olay sırasında gözlerin açık olması",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal nöronal eksitasyon sırasında levator palpebra kas tonusunun açık kalması ve gözlerin yukarı/yana fikse olmasıdır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Nöbette gözler açıktır. PNEN'de ise hastaların >%90'ında gözler sıkı kapalıdır ve açmaya aktif direnç vardır.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T4",
+            "Klinik Soru ve Bulgu": "Önce kaskatı kesilme (tonik), ardından ritmik sıçrama (klonik)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal jeneralize deşarj önce sürekli eksitasyon (tonik faz), ardından inhibitör devrelerin aralıklı devreye girmesiyle klonik fazı üretir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Gerçek tonik-klonik nöbetin evrensel ve stereotipik nörofizyolojik sıralamasıdır.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T5",
+            "Klinik Soru ve Bulgu": "Kasılma ve sıçramaların her iki tarafta düzenli ve ritmik olması",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Korpus kallozum üzerinden iki hemisfer arasında senkronize deşarj yayılımı ve frekansın giderek yavaşlamasıdır.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. PNEN'de ise hareketler ritmik değil asenkron, amaca yönelik olmayan çırpınma ve dalgalanmadır.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T6",
+            "Klinik Soru ve Bulgu": "Dudaklarda morarma (siyanoz) veya solunumun durması",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "İnterkostal kaslar ve diyaframın tonik kasılması ventilasyonu durdurur (iktal apne) ve parsiyel oksijen basıncı hızla düşer.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Gerçek siyanoz objektif hipoksi göstergesidir. Senkopta solukluk ön plandadır; PNEN'de siyanoz oluşmaz.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T7",
+            "Klinik Soru ve Bulgu": "Pelvik itme (kalçayı vurma) veya başı iki yana sallama",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal elektriksel deşarj dışı, psikojenik kaynaklı kompleks disosiyatif motor hareketlerdir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "PNEN lehinedir. Pelvik thrusting ve başı sağa-sola rotasyonel sallama PNEN için son derece yüksek özgüllüğe sahip negatif bulgudur.",
+            "Skorlama": "-1 Puan (Taklitçi / PNEN Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T8",
+            "Klinik Soru ve Bulgu": "Olay sırasında ağlama, çığlık atma veya anlamlı kelimeler",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Kortikal bilinç merkezlerinin tamamen kapanmadığını ve limbik-emosyonel motor kontrolün devrede olduğunu gösterir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "PNEN lehinedir. Gerçek jeneralize nöbette korteks baskılandığı için hasta anlamlı kelime telaffuz edemez veya ağlayamaz.",
+            "Skorlama": "-1 Puan (Taklitçi / PNEN Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T9",
+            "Klinik Soru ve Bulgu": "Kasılma ve sıçramaların süresi (1-2 dakika vs >5-10 dakika)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Epileptik nöbetler intrensek GABAerjik inhibitör devrelerle 1-2 dakikada sonlanır. PNEN ise dalgalı olarak uzar.",
+            "Tanısal Sonuç ve Klinik Anlamı": "1-2 dk sürmesi Epilepsi (+1); 5-10 dakikadan uzun, dalgalı azalıp artan kasılmalar ise PNEN (-1) lehinedir.",
+            "Skorlama": "1-2 dk: +1 Puan / >5 dk: -1 Puan"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T10",
+            "Klinik Soru ve Bulgu": "Olayın uykuda gerçekleşmesi (Noktürnal)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "NREM uykusunun senkronizan etkisi epileptojenik odakları tetikler (özellikle frontal ve mezial temporal lob).",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Vazovagal veya ortostatik senkop yatay pozisyonda ve uykuda ASLA görülmez. Uykuda olan ataklar epilepsidir.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T11",
+            "Klinik Soru ve Bulgu": "Toparlandıktan sonra kolda/bacakta geçici güçsüzlük (Todd Felci)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "Nöbeti başlatan fokal motor korteksin yoğun deşarj sonrası nöronal tükenmesi ve geçici hiperpolarizasyonudur.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Epilepsi lehinedir. Atak sonrasında ekstremitede dakikalarca süren geçici felç fokal başlangıçlı epilepsinin kesin kanıtıdır.",
+            "Skorlama": "+1 Puan (Epilepsi Lehine)"
+        },
+        {
+            "Grup": "Tanığa Sorulan",
+            "Soru Kodu": "T12",
+            "Klinik Soru ve Bulgu": "Hastanın olay anını hatırlamaması (İktal Amnezi)",
+            "Neden Sorulur? (Patofizyolojik Mekanizma)": "İktal deşarjın hafıza devrelerini (hipokampal assosiasyon korteksi) tamamen bloke ederek yeni kayıt almasını engellemesidir.",
+            "Tanısal Sonuç ve Klinik Anlamı": "Hatırlamama Epilepsi (+1); atak anını ve etraftaki konuşmaları baştan sona net hatırlama ise PNEN (-1) lehinedir.",
+            "Skorlama": "Hatırlamıyor: +1 Puan / Hatırlıyor: -1 Puan"
+        }
+    ]
+    
+    df_rehber = pd.DataFrame(sorular_rehberi)
+    
+    f_col1, f_col2 = st.columns([2, 1])
+    with f_col1:
+        kategori_filtre = st.selectbox(
+            "Filtreleme Seçeneği:",
+            [
+                "Tüm Sorular (22 Soru - Kapsamlı Rehber)",
+                "🧑‍🦱 Sadece Hastaya Sorulan Sorular (10 Soru)",
+                "👥 Sadece Tanığa Sorulan Sorular (12 Soru)",
+                "⚡ Sadece Epilepsi Lehine Bulgular (+1 Puan)",
+                "🛑 Sadece Taklitçi (Senkop / PNEN) Lehine Bulgular (-1 Puan)"
+            ]
+        )
+    with f_col2:
+        st.caption("🔍 **Not:** Sorular TÜBİTAK 2209-A Karar Ağacı puanlama algoritmasında kullanılan klinik sorularla birebir eşleşmektedir.")
+        
+    if "Sadece Hastaya" in kategori_filtre:
+        df_goster = df_rehber[df_rehber["Grup"] == "Hastaya Sorulan"]
+    elif "Sadece Tanığa" in kategori_filtre:
+        df_goster = df_rehber[df_rehber["Grup"] == "Tanığa Sorulan"]
+    elif "Epilepsi Lehine" in kategori_filtre:
+        df_goster = df_rehber[df_rehber["Skorlama"].str.contains(r"\+1")]
+    elif "Taklitçi" in kategori_filtre:
+        df_goster = df_rehber[df_rehber["Skorlama"].str.contains(r"-1")]
+    else:
+        df_goster = df_rehber
+        
+    # Tablo olarak göster
+    st.dataframe(
+        df_goster[["Soru Kodu", "Klinik Soru ve Bulgu", "Neden Sorulur? (Patofizyolojik Mekanizma)", "Tanısal Sonuç ve Klinik Anlamı", "Skorlama"]],
+        use_container_width=True,
+        hide_index=True
+    )
+    
+    st.markdown("---")
+    
+    with st.expander("📌 Soruların Klinik Neden-Sonuç Mekanizmaları ve Ayrım Kartları (Detaylı Görünüm)", expanded=False):
+        c_reh1, c_reh2 = st.columns(2)
+        with c_reh1:
+            st.markdown("#### 🧑‍🦱 1. Hastaya Sorulan Sorular (Aura ve Prodrom)")
+            for item in [x for x in sorular_rehberi if x["Grup"] == "Hastaya Sorulan"]:
+                st.markdown(f"""
+                **[{item['Soru Kodu']}] {item['Klinik Soru ve Bulgu']}**  
+                * **Neden (Mekanizma):** {item['Neden Sorulur? (Patofizyolojik Mekanizma)']}  
+                * **Sonuç (Ayırıcı Tanı):** {item['Tanısal Sonuç ve Klinik Anlamı']}  
+                * **Puan:** `{item['Skorlama']}`
+                ---
+                """)
+        with c_reh2:
+            st.markdown("#### 👥 2. Tanığa Sorulan Sorular (İktal ve Motor Patern)")
+            for item in [x for x in sorular_rehberi if x["Grup"] == "Tanığa Sorulan"]:
+                st.markdown(f"""
+                **[{item['Soru Kodu']}] {item['Klinik Soru ve Bulgu']}**  
+                * **Neden (Mekanizma):** {item['Neden Sorulur? (Patofizyolojik Mekanizma)']}  
+                * **Sonuç (Ayırıcı Tanı):** {item['Tanısal Sonuç ve Klinik Anlamı']}  
+                * **Puan:** `{item['Skorlama']}`
+                ---
+                """)
 
 # ==============================================================================
 # SEKME 4: TEDAVİ VE SEVK KILAVUZU
