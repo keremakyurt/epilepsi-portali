@@ -72,9 +72,11 @@ st.markdown("""
 DATA_PATH = os.path.join("data", "hasta_veri_ambari.csv")
 os.makedirs("data", exist_ok=True)
 
-# Google Sheets Yapılandırması (Secrets veya Arayüz Girişi)
+DEFAULT_GSHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby8tmvpDOC7Mlbgml9IFj9Cg6c8z5M0iPvncJ5PpXpWOQf8aAFyUfLjpD7gYOvyRrga/exec"
+
+# Google Sheets Yapılandırması (Varsayılan URL, Secrets veya Arayüz Girişi)
 def get_gsheets_config():
-    webhook_url = ""
+    webhook_url = DEFAULT_GSHEETS_WEBHOOK_URL
     csv_url = ""
     try:
         if "GSHEETS_WEBHOOK_URL" in st.secrets:
@@ -83,7 +85,7 @@ def get_gsheets_config():
             csv_url = st.secrets["GSHEETS_CSV_URL"]
     except Exception:
         pass
-    if not webhook_url and "gsheets_webhook_url" in st.session_state:
+    if "gsheets_webhook_url" in st.session_state and st.session_state["gsheets_webhook_url"]:
         webhook_url = st.session_state["gsheets_webhook_url"]
     if not csv_url and "gsheets_csv_url" in st.session_state:
         csv_url = st.session_state["gsheets_csv_url"]
