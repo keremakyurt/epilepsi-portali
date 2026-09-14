@@ -91,14 +91,13 @@ def get_gsheets_config():
         csv_url = st.session_state["gsheets_csv_url"]
     return str(webhook_url).strip(), str(csv_url).strip()
 
-# Veri Ambarını Yükleme Yardımcısı (Hibrit: Canlı Google E-Tablo / Yerel CSV)
-def load_warehouse():
-    webhook_url, csv_url = get_gsheets_config()
-    
+# Veri Ambarını Yükleme Yardımcısı (Hibrit: Canlı Google E-Tablo / Yerel CSV - 120s Önbellekli)
+@st.cache_data(ttl=120, show_spinner=False)
+def load_warehouse_cached(webhook_url, csv_url):
     # 1. Google Apps Script doGet ile Canlı Okuma (İki Yönlü Canlı Senkronizasyon)
     if webhook_url:
         try:
-            resp = requests.get(webhook_url, timeout=5)
+            resp = requests.get(webhook_url, timeout=4)
             if resp.status_code == 200 and resp.text.strip().startswith("["):
                 raw_data = resp.json()
                 if isinstance(raw_data, list):
@@ -142,8 +141,15 @@ def load_warehouse():
             return pd.DataFrame()
     return pd.DataFrame()
 
+def load_warehouse(force_refresh=False):
+    if force_refresh:
+        load_warehouse_cached.clear()
+    webhook_url, csv_url = get_gsheets_config()
+    return load_warehouse_cached(webhook_url, csv_url)
+
 # Veri Ambarına Kaydetme Yardımcısı (Yerel CSV + Canlı Google Sheets)
 def append_patient_to_warehouse(patient_record):
+    load_warehouse_cached.clear()
     df_existing = load_warehouse()
     df_new = pd.DataFrame([patient_record])
     
@@ -438,14 +444,18 @@ with tab2:
         with st.expander("🛠️ Veri Ambarı Yönetimi (Yalnızca Yetkili Araştırmacı)"):
             c_adm1, c_adm2 = st.columns([1, 2])
             with c_adm1:
-                if st.button("🗑️ Yerel Veri Ambarını Sıfırla (Test Kayıtlarını Sil)", type="secondary"):
+                if st.button("🔄 Google E-Tablo ile Canlı Eşitle", use_container_width=True):
+                    load_warehouse_cached.clear()
+                    st.rerun()
+                if st.button("🗑️ Yerel Veri Ambarını Sıfırla (Test Kayıtlarını Sil)", type="secondary", use_container_width=True):
                     header = "Protokol_No,Kayit_Tarihi,Kaydeden_Hekim,Hasta_Adi_Soyadi,Yas,Cinsiyet,Boy_cm,Kilo_kg,VKI,H1_Anlamsiz_Korku,H2_Anlamsiz_Gulme,H3_Anlamsiz_Aglama,H4_Mideden_Yukselme,H5_Carpinti,H6_Terleme_Goz_Kararma,H7_Hep_Yalnizken,H8_Atak_Sonrasi_Aglama,H9_Sabah_Sicramalari,H10_Dusme_Dikis_Alci,T1_Gozler_Acik,T2_Gozler_Yukari_Sabit,T3_Goz_Kapak_Sikma,T4_Etrafini_Tanima,T5_Hep_1_5_Dk,T6_Ayni_Surede_Bitis,T7_Agiz_Sapurdatma_Otomatizma,T8_Gece_Huzursuz_Uyanma,T9_Bas_Donmesi_Kasilma_Sicrama,T10_Karin_Gogus_Bisiklet_Hareket,T11_Yuz_Bembeyaz_Sari,T12_Dil_Dudak_Isirma,Toplam_Epilepsi_Skoru,Kesin_Klinik_Tani,Klinik_Not\n"
                     with open(DATA_PATH, "w", encoding="utf-8-sig") as f:
                         f.write(header)
+                    load_warehouse_cached.clear()
                     st.success("Test kayıtları yerel ambardan temizlendi!")
                     st.rerun()
             with c_adm2:
-                st.caption("💡 **Bilgi:** Gerçek hasta kayıtlarınız Google E-Tablonuzda güvenle saklanmaktadır. Buradaki buton sadece sistemdeki yerel test kayıtlarını temizler.")
+                st.caption("💡 **Bilgi:** Gerçek hasta kayıtlarınız Google E-Tablonuzda güvenle saklanmaktadır. Yukarıdaki butonlarla Google E-Tablo'daki güncel değişiklikleri anında çekebilir veya yerel test kayıtlarını sıfırlayabilirsiniz.")
 
 # ==============================================================================
 # SEKME 3: TAKLİTÇİLER VE KARŞILAŞTIRMA REHBERİ
