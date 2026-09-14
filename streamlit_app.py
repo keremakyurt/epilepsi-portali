@@ -428,7 +428,7 @@ with tab2:
         st.markdown("#### 📋 Veri Ambarı Tablosu")
         st.dataframe(df_current, use_container_width=True)
         
-        c_down1, c_down2 = st.columns(2)
+        c_down1, c_down2 = st.columns([1, 1.5])
         with c_down1:
             csv_data = df_current.to_csv(index=False, encoding="utf-8-sig").encode("utf-8-sig")
             st.download_button(
@@ -438,24 +438,11 @@ with tab2:
                 mime="text/csv",
                 use_container_width=True
             )
+            if st.button("🔄 Google E-Tablo ile Canlı Eşitle", use_container_width=True):
+                load_warehouse_cached.clear()
+                st.rerun()
         with c_down2:
             st.info("💡 **Danışıklı Öğrenme Notu:** Yeterli sayıda vaka (örneğin 50-100 hasta) toplandığında, bu veri ambarı doğrudan Random Forest ve Karar Ağacı eğitiminde kullanılarak projenin makine öğrenmesi tamamlanacaktır.")
-
-        with st.expander("🛠️ Veri Ambarı Yönetimi (Yalnızca Yetkili Araştırmacı)"):
-            c_adm1, c_adm2 = st.columns([1, 2])
-            with c_adm1:
-                if st.button("🔄 Google E-Tablo ile Canlı Eşitle", use_container_width=True):
-                    load_warehouse_cached.clear()
-                    st.rerun()
-                if st.button("🗑️ Yerel Veri Ambarını Sıfırla (Test Kayıtlarını Sil)", type="secondary", use_container_width=True):
-                    header = "Protokol_No,Kayit_Tarihi,Kaydeden_Hekim,Hasta_Adi_Soyadi,Yas,Cinsiyet,Boy_cm,Kilo_kg,VKI,H1_Anlamsiz_Korku,H2_Anlamsiz_Gulme,H3_Anlamsiz_Aglama,H4_Mideden_Yukselme,H5_Carpinti,H6_Terleme_Goz_Kararma,H7_Hep_Yalnizken,H8_Atak_Sonrasi_Aglama,H9_Sabah_Sicramalari,H10_Dusme_Dikis_Alci,T1_Gozler_Acik,T2_Gozler_Yukari_Sabit,T3_Goz_Kapak_Sikma,T4_Etrafini_Tanima,T5_Hep_1_5_Dk,T6_Ayni_Surede_Bitis,T7_Agiz_Sapurdatma_Otomatizma,T8_Gece_Huzursuz_Uyanma,T9_Bas_Donmesi_Kasilma_Sicrama,T10_Karin_Gogus_Bisiklet_Hareket,T11_Yuz_Bembeyaz_Sari,T12_Dil_Dudak_Isirma,Toplam_Epilepsi_Skoru,Kesin_Klinik_Tani,Klinik_Not\n"
-                    with open(DATA_PATH, "w", encoding="utf-8-sig") as f:
-                        f.write(header)
-                    load_warehouse_cached.clear()
-                    st.success("Test kayıtları yerel ambardan temizlendi!")
-                    st.rerun()
-            with c_adm2:
-                st.caption("💡 **Bilgi:** Gerçek hasta kayıtlarınız Google E-Tablonuzda güvenle saklanmaktadır. Yukarıdaki butonlarla Google E-Tablo'daki güncel değişiklikleri anında çekebilir veya yerel test kayıtlarını sıfırlayabilirsiniz.")
 
 # ==============================================================================
 # SEKME 3: TAKLİTÇİLER VE KARŞILAŞTIRMA REHBERİ
