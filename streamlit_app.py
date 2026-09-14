@@ -442,7 +442,7 @@ with tab2:
                 load_warehouse_cached.clear()
                 st.rerun()
         with c_down2:
-            st.info("💡 **Danışıklı Öğrenme Notu:** Yeterli sayıda vaka (örneğin 50-100 hasta) toplandığında, bu veri ambarı doğrudan Random Forest ve Karar Ağacı eğitiminde kullanılarak projenin makine öğrenmesi tamamlanacaktır.")
+            st.info("💡 **Bilgi Notu:** Yeterli sayıda vaka toplandığında bu veri ambarı kullanılarak projenin makine öğrenmesi tamamlanacaktır.")
 
 # ==============================================================================
 # SEKME 3: TAKLİTÇİLER VE KARŞILAŞTIRMA REHBERİ
